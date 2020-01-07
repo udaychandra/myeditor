@@ -1,0 +1,134 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>MyEditor&trade;</title>
+  <style>
+    body {
+      font-family: 'Rubik', sans-serif;
+      color: #000;
+      margin: 0px;
+    }
+
+    header {
+      color: #fff;
+      width: 100%;
+      height: 36px;
+    }
+
+    h1 {
+      color: #f57f17;
+      font-weight: bold;
+      padding-left: 16px;
+      font-size: 24px;
+    }
+
+    .search-section {
+      margin: 16px;
+      display: flex;
+    }
+
+    .editor-section {
+      margin: 0px 16px;
+    }
+
+    .action-section {
+      margin: 8px 16px;
+      display: flex;
+      justify-content: flex-end;
+      width: 600px;
+    }
+
+    #txtFilePath {
+      width: 564px;
+      height: 24px;
+      border-radius: 4px;
+      border: 1px solid;
+      padding-left: 2px;
+    }
+
+    #pnlEditor {
+      width: 600px;
+      height: 250px;
+    }
+
+    .icon-btn {
+      background: transparent;
+      border: 0px none;
+      cursor: pointer;
+    }
+
+    .action-btn,
+    .action-btn-white {
+      padding: 4px 24px;
+      background: #ffee58;
+      border: 1px solid #ffee58;
+      color: #000;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      margin-right: 4px;
+    }
+
+    .action-btn-white {
+      background: #fff;
+      border: 1px solid #000;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>MyEditor&trade;</h1>
+  </header>
+  <hr>
+  <section class="search-section">
+    <input id="txtFilePath" type="text" placeholder="Enter JSON file path"/>
+    <button class="icon-btn" onclick="fetchJsonFile()">
+      <i class="material-icons">edit</i>
+    </button>
+  </section>
+  <section class="editor-section">
+    <div id="pnlEditor"></div>
+  </section>
+  <section class="action-section">
+    <button class="action-btn" onclick="save()">Save</button>
+    <button class="action-btn-white" onclick="discard()">Discard</button>
+  </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.7/ace.js" type="text/javascript" charset="utf-8"></script>
+  <script>
+    function fetchJsonFile() {
+      var filePath = document.getElementById('txtFilePath').value;
+      if (!filePath) {
+        editor.session.setValue('');
+        return;
+      }
+      var myRequest = new Request('/files' + filePath + '?_=' + new Date());
+      fetch(myRequest).then(function(response) {
+        return response.text().then(function(text) {
+          editor.session.setValue(text);
+        });
+      });
+    }
+
+    function save() {
+      alert('Save is not implemented yet');
+    }
+
+    function discard() {
+      alert('Discard is not implemented yet');
+    }
+
+    var editor = ace.edit("pnlEditor");
+    editor.setTheme("ace/theme/monokai");
+    editor.session.setMode("ace/mode/json");
+  </script>
+</body>
+</html>
